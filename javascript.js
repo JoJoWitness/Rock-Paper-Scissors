@@ -14,7 +14,9 @@ let gameHasFinish= false;
 const resultText= document.querySelector('.resultText');
 const pjPoints= document.querySelector('.pjPoints');
 const pcPoints= document.querySelector('.pcPoints');
-const textAndButton= document.querySelector('.textAndButton')
+const buttonContainer= document.querySelector('.buttonContainer')
+const button = document.createElement('button')
+
 function getPaper(){
     console.log(playerChoice);
     playerChoice="paper";
@@ -53,6 +55,15 @@ function changeToQuestionMark(){
     document.getElementById('pjChoice').setAttribute('style', 'width: 50px; height: 90px;')
     }
   return} 
+
+function ToQuestionMark(){
+    document.getElementById('pjChoice').src="images/QuestionMark.png";
+    document.getElementById('pjChoice').setAttribute('style', 'width: 50px; height: 90px;')
+    document.getElementById('pcChoice').src="images/QuestionMark.png";
+    document.getElementById('pcChoice').setAttribute('style', 'width: 50px; height: 90px;')
+    }    
+
+ 
 
 function changingTheText(){
     if(playerWinRound==true){
@@ -123,11 +134,26 @@ function choisingWinner(){
    
 }
 
-function createbutton(){
-    const button = document.createElement('button');
-    textAndButton.appendChild(button);
-    button.textContent= 'Play again!'
+function createButton(){
+    buttonContainer.appendChild(button);
+    button.textContent= 'Play again!'}
+
+function resetGame(){
+    pcWinCount=0;
+    playerWinCount=0;
+    gameHasFinish=false;
+    resultText.textContent="Choose wisely";
+    playerWinRound= false;
+    pcWinRound= false;
+    tieRound= false;
+    playerChoice="0";
+    pjPoints.textContent= `The player points are: ${playerWinCount}`;
+    pcPoints.textContent=  `The pc points are: ${pcWinCount}`;
+    button.remove();
+    ToQuestionMark();
+    
 }
+
   
 function choisingRock(){
     if(gameHasFinish===false){
@@ -138,8 +164,9 @@ function choisingRock(){
     changingTheText();
     addPoints();
     choisingWinner();
-    }
-}
+    if(gameHasFinish===true){
+        createButton();}
+}}
  
 function choisingPaper(){
     if(gameHasFinish===false){
@@ -150,8 +177,9 @@ function choisingPaper(){
     changingTheText();
     addPoints();
     choisingWinner();
-    }
-}
+    if(gameHasFinish===true){
+        createButton();}
+}}
 function choisingScissors(){
     if(gameHasFinish===false){
     getScissors();
@@ -161,12 +189,11 @@ function choisingScissors(){
     changingTheText();
     addPoints();
     choisingWinner();
-    }
+    if(gameHasFinish===true){
+        createButton();}   }
 }
 
-if(playerWinCount >= 3 || pcWinCount >= 3){
-    choisingWinner();
-}
+
 
 const rock = document.querySelector('#toolImagesRock');
 rock.addEventListener('click', choisingRock);
@@ -177,7 +204,6 @@ paper.addEventListener('click', choisingPaper);
 const scissors = document.querySelector('#toolImagesScissors');
 scissors.addEventListener('click', choisingScissors);
 
-
 rock.addEventListener('mouseover', changeToRock);
 paper.addEventListener('mouseover', changeToPaper);
 scissors.addEventListener('mouseover', changeToScissors);
@@ -185,3 +211,5 @@ scissors.addEventListener('mouseover', changeToScissors);
 rock.addEventListener('mouseout', changeToQuestionMark); 
 paper.addEventListener('mouseout',changeToQuestionMark); 
 scissors.addEventListener('mouseout', changeToQuestionMark);
+
+button.addEventListener('click', resetGame)
